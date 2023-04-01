@@ -1,6 +1,5 @@
 library(tidytuesdayR)
 library(tidyverse)
-library(GGally)
 library(visdat)
 
 # Get the Data
@@ -19,8 +18,6 @@ starbucks <- tuesdata$starbucks
 glimpse(starbucks)
 vis_dat(starbucks)
 anyNA(starbucks)
-
-starbucks %>% select(-product_name) %>%  GGally::ggpairs()
 
 starbucks <- starbucks %>%  mutate(caffeine_mg_per_ml = caffeine_mg / serv_size_m_l)
 
