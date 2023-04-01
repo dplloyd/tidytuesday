@@ -11,4 +11,5 @@ https://github.com/rfordatascience/tidytuesday
 
 # 2023
 
+- [2023-02-07](https://github.com/dplloyd/tidytuesday/tree/main/2023/2023-02-07): Tech stock prices
 - [2023-03-28](https://github.com/dplloyd/tidytuesday/tree/main/2023/2023-03-28): Timezones
