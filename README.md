@@ -9,6 +9,10 @@ https://github.com/rfordatascience/tidytuesday
 
 -   [2021-12-21](https://github.com/dplloyd/tidytuesday/tree/main/2021/2021-12-21): Starbucks cup sizes.
 
+# 2022
+
+ - [2022-03-22](https://github.com/dplloyd/tidytuesday/tree/main/2022/2022-03-22): New Zealand baby names
+
 # 2023
 
 - [2023-02-07](https://github.com/dplloyd/tidytuesday/tree/main/2023/2023-02-07): Tech stock prices
