@@ -89,7 +89,7 @@ points_ts <- football_long %>%
   left_join(team_colours)
 
 title_text <- "Share of points among EPL teams during the 2021-22 season"
-tag_text <- "Manchester City reached the top of the table after 15 matches, \nand remained at that position for the remaining matches played"
+tag_text <- "Manchester City reached the top of the table after 15 matches, \nand remained at that position until the end of the season."
 
 
 label_positions <- points_ts %>% filter(matches_played ==38) %>% arrange(cum_points) %>% 
@@ -121,6 +121,7 @@ ggplot(points_ts) +
              hjust = 0,
              size = 3) +
   
+  expand_limits(x = 41) +
   
   theme(plot.background = element_rect(fill = "grey50"),
         plot.subtitle = element_text(colour = "white"),
@@ -128,5 +129,5 @@ ggplot(points_ts) +
         plot.caption = ggtext::element_markdown()
         ) 
 
-ggsave("2023/2023-04-04/tt_2022-04-22.png")
+ggsave("2023/2023-04-04/tt_2022-04-22.png", height = 10)
 
