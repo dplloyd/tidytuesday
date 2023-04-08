@@ -120,5 +120,5 @@ ggplot(points_ts)+
         plot.caption = ggtext::element_markdown()
         ) 
 
-
+ggsave("tt_2022-04-22.png")
 
