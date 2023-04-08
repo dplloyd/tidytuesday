@@ -79,21 +79,24 @@ football_long <- football_long %>%
                                   WLD == "Draw" ~ 1),
          date = as.Date(Date,"%d/%m/%Y" ) )
 
+team_colours <- read.csv("2023/2023-04-04/teams.csv")
+
 
 points_ts <- football_long %>% 
   group_by(team) %>% 
   summarise(cum_points = cumsum(points_won)) %>% 
   mutate(matches_played = rep(seq(1,38))) %>% 
-  mutate(fill = case_when(team == "Man City" ~ "#6CABDD",
-                          TRUE ~ "grey82"),
-         colour = case_when(team == "Man City"~ "#FFC659",
-                            TRUE ~ "grey20"))
+  left_join(team_colours)
 
-title_text <- "Share of points among EPL teams in the 2021-22 season"
+title_text <- "Share of points among EPL teams during the 2021-22 season"
 tag_text <- "Manchester City reached the top of the table after 15 matches, \nand remained at that position for the remaining matches played"
 
 
-ggplot(points_ts)+
+label_positions <- points_ts %>% filter(matches_played ==38) %>% arrange(cum_points) %>% 
+  ungroup() %>% 
+  mutate(label_y_coord  = cumsum(cum_points))
+
+ggplot(points_ts) +
   
   ggsankey::geom_sankey_bump(aes(x = matches_played, node = team, 
                                  value = cum_points,
@@ -109,13 +112,18 @@ ggplot(points_ts)+
   ylab("EPL points won") +
   xlab("Matches played") +
   
-  theme_minimal() +
+  theme_minimal(base_size = 15) +
   
   scale_fill_identity(aesthetics = c("fill","colour")) +
   
+  geom_label(data = label_positions,
+             aes(x = 38 , y = label_y_coord, label = team, fill = fill, colour = colour),
+             hjust = 0,
+             size = 3) +
   
-  theme(plot.background = element_rect(fill = "#FEFEFE"),
-        plot.subtitle = element_text(colour = "grey52"),
+  
+  theme(plot.background = element_rect(fill = "grey50"),
+        plot.subtitle = element_text(colour = "white"),
         plot.title = element_text(face = "bold"),
         plot.caption = ggtext::element_markdown()
         ) 
