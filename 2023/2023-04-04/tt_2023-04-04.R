@@ -8,8 +8,6 @@ football <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/t
 glimpse(football)
 
 # Will create a summary table using reactable.
-
-
 football_long <- football %>% pivot_longer(cols = c("AwayTeam","HomeTeam"), names_to = "home_away", values_to = "team") %>% 
   mutate(goals_fulltime = case_when(home_away == "AwayTeam" ~ FTAG,
                                      home_away == "HomeTeam" ~ FTHG),
@@ -112,7 +110,7 @@ ggplot(points_ts) +
   ylab("EPL points won") +
   xlab("Matches played") +
   
-  theme_minimal(base_size = 15) +
+  theme_minimal(base_size = 25) +
   
   scale_fill_identity(aesthetics = c("fill","colour")) +
   
@@ -129,5 +127,4 @@ ggplot(points_ts) +
         plot.caption = ggtext::element_markdown()
         ) 
 
-ggsave("2023/2023-04-04/tt_2022-04-22.png", height = 10)
-
+ggsave("2023/2023-04-04/tt_2022-04-22.png", height = 10, width = 15)
