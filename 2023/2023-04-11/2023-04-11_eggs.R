@@ -44,7 +44,7 @@ eggproduction %>% filter(prod_type == "table eggs") %>%
   geom_line(linewidth = 1) +
   
   scale_y_continuous(name = "**Index** (100 = 31 Aug 2016)")  +
-  scale_x_continuous(name = "Time") +
+  scale_x_continuous(name = "Time")+
   theme_minimal() +
   
   labs(title = "The number of cage free (non-organic) hens has \nalmost quadrupled since 2016.",
