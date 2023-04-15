@@ -4,6 +4,7 @@ library(sysfonts)
 
 
 
+
 eggproduction  <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-04-11/egg-production.csv')
 cagefreepercentages <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-04-11/cage-free-percentages.csv')
 
@@ -61,6 +62,6 @@ eggproduction %>% filter(prod_type == "table eggs") %>%
 
 
 
-ggsave("2023-04-11_eggs.png", height = 5)
+ggsave("2023/2023-04-11/2023-04-11_eggs.png", height = 5)
 
 
