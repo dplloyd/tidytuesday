@@ -1,4 +1,4 @@
-# Egg production wd
+# Egg production
 
 Basic plot, picked some eggshell palette colours. Only just noticed the date label formatting has disappeared.
 
