@@ -1,0 +1,127 @@
+---
+title: "Tidy Tuesday"
+subtitle: "2023-12-05: Life Expectancy"
+author: "Diarmuid Lloyd"
+title-block-banner: true
+description: "A record of a [Tidy Tuesday](https://github.com/rfordatascience/tidytuesday/tree/master) attempt"
+date: "`r Sys.Date()`"
+format:
+  html:
+    theme: flatly
+---
+
+A quick and dirty test of Highcharter.
+
+## Libraries
+
+```{r}
+#| warning: false
+library(tidyverse)
+library(highcharter)
+```
+
+
+## Read the data
+
+```{r}
+#| message: false
+
+life_expectancy <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-12-05/life_expectancy.csv')
+life_expectancy_different_ages <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-12-05/life_expectancy_different_ages.csv')
+life_expectancy_female_male <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-12-05/life_expectancy_female_male.csv')
+```
+
+```{r}
+#| include: false
+
+glimpse(life_expectancy)
+glimpse(life_expectancy_different_ages)
+glimpse(life_expectancy_female_male)
+
+```
+## Map of 2021 life expectancy
+```{r}
+
+mapdata <- get_data_from_map(download_map_data("custom/world"))
+life_expectancy_2021 <- life_expectancy |> filter(Year == 2021, !is.na(Code))
+
+hcmap(
+  "custom/world",
+  data = life_expectancy_2021,
+  value = "LifeExpectancy",
+  joinBy = c("iso-a3", "Code"),
+    name = "Life expectancy",
+  borderColor = "#FAFAFA",
+  borderWidth = 0.1,
+  tooltip = list(
+    valueDecimals = 1,
+    valueSuffix = " years"
+  )
+)
+```
+
+## Evolution of life expectancy, 1951 to 2021
+```{r}
+life_expectancy_hm <- life_expectancy |> 
+filter(Year>=1950 , !is.na(Code))
+  
+hchart(life_expectancy_hm,
+       type = "heatmap",
+       hcaes(x = Year, y = Entity, value = LifeExpectancy))
+
+
+```
+
+
+
+
+## Evolution of life expectancy relative to 2021, 1951 to 2021
+```{r}
+life_expectancy_hm_index <- life_expectancy |> 
+filter(Year>=1950 , !is.na(Code)) |> 
+  group_by(Entity) |> 
+  mutate(index_2021  = LifeExpectancy / LifeExpectancy[Year==2021]) |> 
+  mutate(le_2021 = LifeExpectancy[Year==2021])
+
+life_expectancy_hm_index$Entity <- factor(life_expectancy_hm_index$Entity) |> 
+  fct_reorder(life_expectancy_hm_index$le_2021)
+  
+hchart(life_expectancy_hm_index,
+       type = "heatmap",
+       hcaes(x = Year, y = Entity, value = index_2021)) |> 
+  hc_colorAxis(
+    stops = color_stops(10, viridisLite::inferno(10, direction = -1)),
+    type = "logarithmic"
+  ) |> 
+    hc_size(height = 900)
+
+
+```
+
+
+
+
+
+## Change in life expectancy between 1950 and 2021 by country
+```{r}
+
+life_expectancy_comp <- life_expectancy |> filter(Year==1950 | Year == 2021, !is.na(Code)) |> 
+  pivot_wider(values_from = LifeExpectancy, names_from = Year, names_prefix = "year_") |> 
+  mutate(change = year_2021 - year_1950) |> 
+  arrange(change)
+
+life_expectancy_comp$Entity <- factor(life_expectancy_comp$Entity) |> 
+  fct_reorder(life_expectancy_comp$change)
+  
+
+life_expectancy_comp |>
+  ggplot() +
+  geom_col(aes(x = Entity, y = change)) +
+  coord_flip() +
+  theme_minimal() +
+  theme(panel.grid = element_blank())
+
+```
+
+
+
