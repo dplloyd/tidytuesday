@@ -11,7 +11,7 @@ pivot_longer(cols = gum_rot_d6:lassitude_d6, values_to = "score", names_to = "ai
 # Convert scores into ordered factors
 # 
 
-scurvy_long$score <- forcats::as_factor(score)
+scurvy_long$score <- forcats::as_factor(scurvy_long$score)
 
 
 scurvy_long |> 
