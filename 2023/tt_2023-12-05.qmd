@@ -1,0 +1,52 @@
+---
+title: "Tidy Tuesday - 12-05-2023"
+format: html
+---
+
+## Libraries
+
+```{r}
+library(tidyverse)
+```
+
+
+## Read the data
+
+```{r}
+life_expectancy <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-12-05/life_expectancy.csv')
+life_expectancy_different_ages <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-12-05/life_expectancy_different_ages.csv')
+life_expectancy_female_male <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-12-05/life_expectancy_female_male.csv')
+```
+
+```{r}
+glimpse(life_expectancy)
+glimpse(life_expectancy_different_ages)
+
+glimpse(life_expectancy_female_male)
+
+```
+
+
+```{r}
+
+life_expectancy_comp <- life_expectancy |> filter(Year==1950 | Year == 2021, !is.na(Code)) |> 
+  pivot_wider(values_from = LifeExpectancy, names_from = Year, names_prefix = "year_") |> 
+  mutate(change = year_2021 - year_1950) |> 
+  arrange(change)
+
+life_expectancy_comp |>
+  filter(Year == 2021) |>
+  
+  ggplot() +
+  
+  geom_col(aes(x = Entity, y = change))
+  
+
+
+
+```
+
+
+```{r}
+```
+
