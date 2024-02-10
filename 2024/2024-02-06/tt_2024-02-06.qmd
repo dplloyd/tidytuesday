@@ -1,0 +1,28 @@
+---
+title: "Tidy Tuesday: World heritage sites"
+author: "Diarmuid Lloyd"
+format: html
+editor: visual
+---
+
+## Libraries
+
+```{r}
+library(tidyverse)
+```
+
+## Reading the data
+
+```{r}
+heritage <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-02-06/heritage.csv')
+
+```
+
+## Exploring the data
+
+```{r}
+
+glimpse(heritage)
+
+
+```
